@@ -1,21 +1,11 @@
 <template>
   <div id="app">
-    <div class="vue_radio">
-      <div class="tabs">
-        <input type="radio" id="tab1" value="1" v-model="isActive">
-        <label for="tab1">タブメニュー1</label>
-
-        <input type="radio" id="tab2" value="2" v-model="isActive">
-        <label for="tab2">タブメニュー2</label>
-
-        <input type="radio" id="tab3" value="3" v-model="isActive">
-        <label for="tab3">タブメニュー3</label>
+    <button @click="openModal">開く</button>
+    <div id="overlay" v-if="show">
+      <div id="content">
+        <p>モーダルウインドウ</p>
+        <button @click="closeModal">閉じる</button>
       </div>
-      <ul class="contents">
-        <li v-if="isActive === '1'">コンテンツ1コンテンツ1コンテンツ1コンテンツ1コンテンツ1コンテンツ1コンテンツ1コンテンツ1コンテンツ1コンテンツ1コンテンツ1コンテンツ1コンテンツ1コンテンツ1</li>
-        <li v-else-if="isActive === '2'">コンテンツ2コンテンツ2コンテンツ2コンテンツ2コンテンツ2コンテンツ2コンテンツ2コンテンツ2コンテンツ2コンテンツ2コンテンツ2コンテンツ2コンテンツ2コンテンツ2</li>
-        <li v-else-if="isActive === '3'">コンテンツ3コンテンツ3コンテンツ3コンテンツ3コンテンツ3コンテンツ3コンテンツ3コンテンツ3コンテンツ3コンテンツ3コンテンツ3コンテンツ3コンテンツ3コンテンツ3</li>
-      </ul>
     </div>
   </div>
 </template>
@@ -24,32 +14,38 @@
 export default {
   data() {
     return {
-      isActive: "1"
+      show: false
     };
+  },
+  methods: {
+    openModal() {
+      this.show = true;
+    },
+    closeModal() {
+      this.show = false;
+    }
   }
 };
 </script>
 
 <style>
-.tabs label {
-  padding: 5px 20px;
-  cursor: pointer;
+#overlay {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.tabs :checked + label {
-  background-color: #000;
-  color: #fff;
-}
-input {
-  display: none;
-}
-ul {
-  margin: 0;
-  padding: 0;
-}
-li {
-  list-style: none;
-  width: 500px;
-  padding: 20px;
-  border: 1px solid #ccc;
+#content {
+  text-align: center;
+  z-index: 2;
+  width: 30%;
+  padding: 10px;
+  background: #fff;
 }
 </style>
