@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <button @click="openModal">開く</button>
-    <div id="overlay" v-if="show">
-      <div id="content">
-        <p>モーダルウインドウ</p>
-        <button @click="closeModal">閉じる</button>
-      </div>
-    </div>
+    <input type="text" v-model="keyword">
+    <table>
+      <tr v-for="(user, index) in filteredUsers" :key="index">
+        <td>{{index+1}}</td>
+        <td>{{user.name}}</td>
+      </tr>
+    </table>
   </div>
 </template>
 
@@ -14,38 +14,37 @@
 export default {
   data() {
     return {
-      show: false
+      keyword: "",
+      users: [
+        {
+          name: "佐藤"
+        },
+        {
+          name: "山田"
+        },
+        {
+          name: "鈴木"
+        },
+        {
+          name: "田中"
+        }
+      ]
     };
   },
-  methods: {
-    openModal() {
-      this.show = true;
-    },
-    closeModal() {
-      this.show = false;
+  computed: {
+    filteredUsers() {
+      const users = [];
+      for (const i in this.users) {
+        const user = this.users[i];
+        if (user.name.indexOf(this.keyword) !== -1) {
+          users.push(user);
+        }
+      }
+      return users;
     }
   }
 };
 </script>
 
 <style>
-#overlay {
-  z-index: 1;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#content {
-  text-align: center;
-  z-index: 2;
-  width: 30%;
-  padding: 10px;
-  background: #fff;
-}
 </style>
